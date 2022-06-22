@@ -10,15 +10,13 @@ const readFile = async (file) => {
 };
 
 const writeContentFile = async (file, content) => {
-    try {
         const readContent = await readFile(file);
-
         readContent.push(content);
-
         await fs.writeFile(file, JSON.stringify(readContent));
-    } catch (error) {
-        return null;
-    }
 };
 
-module.exports = { readFile, writeContentFile };
+const writeFile = async (file, content) => {
+        await fs.writeFile(file, JSON.stringify(content));
+};
+
+module.exports = { readFile, writeContentFile, writeFile };
