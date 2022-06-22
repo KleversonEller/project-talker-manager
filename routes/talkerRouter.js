@@ -18,6 +18,20 @@ router.get('/', async (_req, res) => {
     return res.status(200).send(result);
 });
 
+router.get('/search', validToken, async (req, res) => {
+    const { q } = req.query;
+    
+    const talkers = await readFile(file);
+
+    if (!q) {
+        return res.status(200).send(talkers);
+    }
+
+    const result = talkers.filter((objeto) => objeto.name.includes(q));
+
+    return res.status(200).send(result);
+});
+
 router.get('/:id', async (req, res) => {
     const { id } = req.params;
 
