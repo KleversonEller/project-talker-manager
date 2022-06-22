@@ -11,12 +11,11 @@ const readFile = async (file) => {
 
 const writeContentFile = async (file, content) => {
     try {
-        const readContent = readFile(file) || [];
+        const readContent = await readFile(file);
 
         readContent.push(content);
-        await fs.writeFile(file, JSON.stringify(readContent));
 
-        return content;
+        await fs.writeFile(file, JSON.stringify(readContent));
     } catch (error) {
         return null;
     }
