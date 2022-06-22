@@ -1,5 +1,5 @@
 const router = require('express').Router();
-const { readFile, writeContentFile } = require('../helpers/readWriteFile');
+const { readFile, writeContentFile, writeFile } = require('../helpers/readWriteFile');
 
 const validToken = require('../middleware/validToken');
 const validName = require('../middleware/validName');
@@ -42,6 +42,28 @@ router.post('/',
         await writeContentFile(file, { age, id: 5, name, talk });
 
         return res.status(201).send({ age, id: 5, name, talk });
+});
+
+router.put('/:id',
+    validToken,
+    validName,
+    validAge,
+    validTalk,
+    validWatchedAt,
+    validRate,
+    async (req, res) => {
+        const { name, age, talk } = req.body;
+        const { id } = req.params;
+
+        const talkers = await readFile(file);
+
+        const newTalker = talkers.map((objeto) => (objeto.id === +id
+        ? { age, id: +id, name, talk }
+        : objeto));
+
+        await writeFile(file, newTalker);
+
+        return res.status(200).send({ age, id: +id, name, talk });
 });
 
 module.exports = router;
