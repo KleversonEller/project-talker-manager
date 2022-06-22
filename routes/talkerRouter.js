@@ -66,4 +66,16 @@ router.put('/:id',
         return res.status(200).send({ age, id: +id, name, talk });
 });
 
+router.delete('/:id', validToken, async (req, res) => {
+    const { id } = req.params;
+
+    const talkers = await readFile(file);
+
+    const result = talkers.filter((tak) => tak.id !== +id);
+
+    await writeFile(file, result);
+
+    res.status(204).end();
+});
+
 module.exports = router;
